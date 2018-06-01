@@ -1,4 +1,7 @@
 function processImage() {
+    document.querySelector("#corpoInteiro").style.display = "none";
+    document.querySelector("#loader").style.display = "block";
+
     var subscriptionKey = "4dfab9a68a1e4a4ba92d3fa91996c4b5";
     var uriBase ="https://westcentralus.api.cognitive.microsoft.com/vision/v2.0/analyze";
 
@@ -33,6 +36,9 @@ function processImage() {
     .done(function(data) {
         // Show formatted JSON on webpage.
         $("#responseTextArea").val(JSON.stringify(data, null, 2));
+
+        document.querySelector("#corpoInteiro").style.display = "block";
+        document.querySelector("#loader").style.display = "none";
     })
 
     .fail(function(jqXHR, textStatus, errorThrown) {

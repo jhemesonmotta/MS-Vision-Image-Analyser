@@ -1,80 +1,51 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <title>Analisador - MS Vision API</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <title>Analisador - MS Vision API</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    <script src="/Scripts/controller.js"></script>
+    <div class="container-fluid">
+        <div class="row content">
+            <div class="col-md-3 col-sm-3 col-xs-12 sidenav">
+                <h4>Analyser</h4>
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"><a href="#section1">Home</a></li>
+                </ul>
+            </div>
 
-<script type="text/javascript">
-    function processImage() {
-        var subscriptionKey = "<key>";
-        var uriBase ="https://westcentralus.api.cognitive.microsoft.com/vision/v2.0/analyze";
-
-        // Request parameters.
-        var params = {
-            "visualFeatures": "Tags,Categories,Description,Color",
-            "details": "",
-            "language": "en",
-        };
-
-        // Display the image.
-        var sourceImageUrl = document.getElementById("inputImage").value;
-        document.querySelector("#sourceImage").src = sourceImageUrl;
-
-        // Make the REST API call.
-        $.ajax({
-            url: uriBase + "?" + $.param(params),
-
-            // Request headers.
-            beforeSend: function(xhrObj){
-                xhrObj.setRequestHeader("Content-Type","application/json");
-                xhrObj.setRequestHeader(
-                    "Ocp-Apim-Subscription-Key", subscriptionKey);
-            },
-
-            type: "POST",
-
-            // Request body.
-            data: '{"url": ' + '"' + sourceImageUrl + '"}',
-        })
-
-        .done(function(data) {
-            // Show formatted JSON on webpage.
-            $("#responseTextArea").val(JSON.stringify(data, null, 2));
-        })
-
-        .fail(function(jqXHR, textStatus, errorThrown) {
-            // Display error message.
-            var errorString = (errorThrown === "") ? "Error. " :
-                errorThrown + " (" + jqXHR.status + "): ";
-            errorString += (jqXHR.responseText === "") ? "" :
-                jQuery.parseJSON(jqXHR.responseText).message;
-            alert(errorString);
-        });
-    };
-</script>
-
-<h1>Analisar Imagem</h1>
-Digite uma URL de uma imagem, então clique no botão <strong>ANALISAR</strong>.
-<br><br>
-Imagem para analisar:
-<input type="text" name="inputImage" id="inputImage"
-    value="https://i.ytimg.com/vi/aT6ZlX0V63k/maxresdefault.jpg" />
-<button onclick="processImage()">ANALISAR</button>
-<br><br>
-<div id="wrapper" style="width:1020px; display:table;">
-    <div id="jsonOutput" style="width:600px; display:table-cell;">
-        Resposta:
-        <br><br>
-        <textarea id="responseTextArea" class="UIInput"
-                  style="width:580px; height:400px;"></textarea>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+                <h2>Analisar Imagem</h2>
+                <h5>Digite uma URL de uma imagem, então clique no botão ANALISAR</h5>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="text" class="form-control" name="inputImage" id="inputImage" value="https://i.ytimg.com/vi/aT6ZlX0V63k/maxresdefault.jpg" />
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <button onclick="processImage()" class="btn btn-success">ANALISAR</button>
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                            <textarea id="responseTextArea" class="UIInput form-control" rows="14"></textarea>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div id="imageDiv">
+                            <img id="sourceImage" class="img-responsive"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="imageDiv" style="width:420px; display:table-cell;">
-        Imagem:
-        <br><br>
-        <img id="sourceImage" width="400" />
-    </div>
-</div>
 </body>
 </html>
